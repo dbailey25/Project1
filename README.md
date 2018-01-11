@@ -1,7 +1,7 @@
 # Project1
 
 ## Project Name
-* Bad & Bougie
+* Bad or Bougie
 
 ### Description
 * We get you camping in style. This app will give the luxury minded user all the info they need to get outdoors and back without really roughing it.
