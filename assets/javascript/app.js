@@ -15,10 +15,12 @@ $("#find-nanp").on("click", function(event) {
       var fullname = $("<p>").text("Full Name: " + results[i].fullName);
       var name = $("<p>").text("Name: " + results[i].name);
       var description = $("<p>").text("Description: " + results[i].description);
+      var directionsInfo = $("<p>").text("Directions: " + results[i].directionsInfo);
       var weatherInfo = $("<p>").text("Weather Information: "+ results[i].weatherInfo);
       d.append(fullname);
       d.append(name);
       d.append(description);
+      d.append(directionsInfo);
       d.append(weatherInfo);
       d.append("<hr>");
       $("#nanp-view").append(d);
