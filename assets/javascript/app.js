@@ -12,6 +12,8 @@ $("#find-nanp").on("click", function(event) {
     var results = (npData.data)
     console.log(results);
     for(var i = 0;i<results.length;i++){
+      var designation = (results[i].designation);
+      if(designation==="National Park" || designation==="National and State Parks"){
       // var d = $("<div>");
       // var fullname = $("<p>").text("Full Name: " + results[i].fullName);
       // var name = $("<p>").text("Name: " + results[i].name);
@@ -41,6 +43,7 @@ $("#find-nanp").on("click", function(event) {
       console.log('description', description);
       $("#parks-table > tbody").append("<tr><td>" + name + "</td><td>" +
   bougie + "</td><td>" + description + "</td></tr>");
+    }//End of if
     }//End of loop
   });//End of function npData
 });//End of onclick function

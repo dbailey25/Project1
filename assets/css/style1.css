@@ -1,0 +1,18 @@
+#title{
+  font-weight: bold;
+}
+#text1 {
+  font-size: 20%;
+  font-weight: bold;
+}
+#text2 {
+  font-size: 20%;
+}
+#images{
+  margin: 1%;
+  height: 30%;
+  width: 30%;
+}
+.col{
+  border: 1px solid black;
+}
