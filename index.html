@@ -8,17 +8,42 @@
     <title>US National Parks</title>
   </head>
   <body>
-    <div class="container" id="top">
-    </div><!--End of div container top-->
-    <div class="container" id="bottom">
-      <div class="card" id="card">
-      </div><!--End of div card-->
-    </div><!--End of div container bottom-->
+    <!-- title -->
+    <h1>North American National Parks</h1>
+    <hr>
+    <form id="nanp-form">
+      <label for="nanp-input">North American National Park Search</label>
+      <br>
+      <input type="text" id="nanp-input">
+      <br>
+      <input id="find-nanp" type="submit" value="North American National Park Search">
+    </form>
+    <hr>
+    <!-- <br>
+    <input type="text" id="nanp-input-photo">
+    <br>
+    <input id="find-nanp-photo" type="submit" value="North American National Park Photo Search">
+    <hr> -->
+    <div id="nanp-view">
+      <table class="table table-hover" id='parks-table'>
+                <thead>
+                  <tr>
+                    <th>Park Name</th>
+                    <th>Bad or Bougie</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+    </div>
+    <!-- <hr>
+    <div class="row" id="nanp-view-photo"></div> -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="assets/javascript/app2.js"></script>
+    <script src="assets/javascript/app.js"></script>
 
   </body>
 </html>
