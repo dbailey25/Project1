@@ -5,7 +5,7 @@ $(document).ready(function(){
   var internet = false;
   var userRating = -1;
   var bougieScore = 0;
-
+  var bougieLabel = 'Bad';
 
   function calculateBougieScore() {
   bougieScoreRestaurant();
@@ -51,6 +51,12 @@ $(document).ready(function(){
     bougieScore -= 4
   } //close else if; userRating
   }//close function; bougieScoreUser
+
+  function setBougieLabel() {
+    if (bougieScore >= 3) {
+      bougieLabel = 'Bougie'
+    }
+  }
 
 $("#find-nanp").on("click", function(event) {
   event.preventDefault();
@@ -100,20 +106,20 @@ $("#find-nanp").on("click", function(event) {
     if(designation==="National Park" || designation==="National and State Parks"){
     var parkName = parksResults[i].name;
     console.log('parkName', parkName);
-    // var parkCode = parksResults[i].parkCode;
-    // console.log('parkCode', parkCode);
-    for (var j = 0; j < campgroundsResults.length; j++) {
-      if (campgroundsResults[j].parkCode === parksResults[i].parkCode) {
-        setCampgroundVars();
-        console.log('rvAllowed', rvAllowed);
-        console.log('internet', internet);
-      }; //close if, campground within park
-    }; //close loop, parkCodeIndex
     var description = parksResults[i].description;
-//     console.log('name', name);
-    console.log('description', description);
-//     $("#parks-table > tbody").append("<tr><td>" + name + "</td><td>" +
-// bougieLabel + "</td><td>" + description + "</td></tr>");
+    var parkCode = parksResults[i].parkCode;
+    var stampLocation = 'assets/images/stamps/' + parkCode + '.png';
+    var stampImage = '<img class="stamp", src="' + stampLocation + '" alt="' + parkName + ' Image">';
+
+      for (var j = 0; j < campgroundsResults.length; j++) {
+        if (campgroundsResults[j].parkCode === parksResults[i].parkCode) {
+          setCampgroundVars();
+          console.log('rvAllowed', rvAllowed);
+          console.log('internet', internet);
+        }; //close if, campground within park
+      }; //close loop, parkCodeIndex
+
+    $("#parks-table > tbody").append("<tr><td>" + parkName + "</td><td>" + stampImage + "</td><td>" + bougieLabel + "</td></tr>");
     }//End of if, designation
     }//End of loop, display name, description
   });//End of function parksData, campgroundsData
