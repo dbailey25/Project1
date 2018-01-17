@@ -108,7 +108,7 @@ $("#find-nanp").on("click", function(event) {
     console.log('parkName', parkName);
     var description = parksResults[i].description;
     var parkCode = parksResults[i].parkCode;
-    var stampLocation = 'assets/images/stamps/' + parkCode + '.png';
+    var stampLocation = 'assets/images/Click Pics/' + parkName + '.jpg';
     var stampImage = '<img class="stamp", src="' + stampLocation + '" alt="' + parkName + ' Image">';
 
       for (var j = 0; j < campgroundsResults.length; j++) {
