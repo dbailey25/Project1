@@ -26,7 +26,7 @@
 * Cesar
 * Chris J.
 * Duane
-* Antoine
+* Antoine https://www.linkedin.com/in/antoine-bartholomew-ba5b7317/
 
 ###### Rough breakdown of tasks/assignments
 * Search by state: Cesar
