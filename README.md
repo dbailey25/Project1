@@ -2,7 +2,7 @@
 * Bad & Bougie
 
 ### Description
-* We get you camping in style. This app will give the luxury minded user all the info they need to get outdoors and back without really roughing it.
+* We get you camping in style. This app will give the luxury minded user all the info they need to get outdoors and back without really    roughing it.
 * Features
   * Park amenities and pics
   * Users can comment on their trips and rate the park as Bad or Bougie
@@ -12,18 +12,19 @@
   * User specified trip duration to tailor info to be presented
   
   
+  This is the Mock Up
   ![](Design%20Docs/Glamping_Badandbougie_UI%20mock%20up.png)
   
-  
+  This is the Wire Frame
   ![](Design%20Docs/Architecture%20Diagram.png)
   
   
-  
-
-#### API list
+#### Technology Used and API Utilization
 * NPS
 * Foursquare
 * Google maps
+* BootStrap 
+* jQuery
 
 ##### Team Member list w/ pic
 * Gerard
