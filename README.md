@@ -11,7 +11,7 @@
   * Best selfie spots that are easy to get to
   * User specified trip duration to tailor info to be presented
   
-  ![]()
+  ![](Design%20Docs/Architecture%20Diagram.png)
   
   https://github.com/cpocai/Project1/blob/master/Design%20Docs/Architecture%20Diagram.png
   
