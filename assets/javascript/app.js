@@ -104,7 +104,8 @@ $("#find-nanp").on("click", function(event) {
 
   for(var i = 0;i<parksResults.length;i++){
     var designation = parksResults[i].designation;
-    if(designation==="National Park" || designation==="National and State Parks"){
+    var nationalPark = designation.includes('National Park');
+    if(nationalPark){
     var parkName = parksResults[i].name;
     console.log('parkName', parkName);
     var description = parksResults[i].description;
