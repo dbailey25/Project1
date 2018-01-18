@@ -13,10 +13,8 @@
   
   ![](Design%20Docs/Architecture%20Diagram.png)
   
-  https://github.com/cpocai/Project1/blob/master/Design%20Docs/Architecture%20Diagram.png
+  ![](Design%20Docs/Glamping_Badandbougie_UI%20mock%20up.png)
   
-  
-  https://github.com/cpocai/Project1/blob/master/Design%20Docs/Glamping_Badandbougie_UI%20mock%20up.png
 
 #### API list
 * NPS
