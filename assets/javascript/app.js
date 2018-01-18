@@ -1,72 +1,128 @@
-$("#find-nanp").on("click", function(event) {
-  // test comment
-  event.preventDefault();
-  var np = $("#nanp-input").val();
-  // var queryURL = "https://developer.nps.gov/api/v1/parks?stateCode=" + np + "&api_key=ebkHAQqxYcIP2uGebz8ASYNVFfvte7BsrBhfhAvC&limit=1";
-  var queryURL = "https://developer.nps.gov/api/v1/parks?stateCode=" + np + "&api_key=ebkHAQqxYcIP2uGebz8ASYNVFfvte7BsrBhfhAvC";
-  console.log(np);
-  $.ajax({
-    url: queryURL,
-    method: "GET"
-  }).done(function(npData) {
-    $("#parks-table > tbody").empty();
-    var results = (npData.data)
-    console.log(results);
-    for(var i = 0;i<results.length;i++){
-      var designation = (results[i].designation);
-      if(designation==="National Park" || designation==="National and State Parks"){
-      // var d = $("<div>");
-      // var fullname = $("<p>").text("Full Name: " + results[i].fullName);
-      // var name = $("<p>").text("Name: " + results[i].name);
-      // var description = $("<p>").text("Description: " + results[i].description);
-      var name = results[i].name;
-      var description = results[i].description;
-      var bougieIndex = Math.floor(Math.random() * 2) + 1;
-      console.log('bougieIndex', bougieIndex);
-      var bougie;
+$(document).ready(function(){
 
-      if (bougieIndex === 1) {
-        bougie = 'Bougie'
-      }
-      else {
-        bougie = 'Bad'
-      }
-      // var directionsInfo = $("<p>").text("Directions: " + results[i].directionsInfo);
-      // var weatherInfo = $("<p>").text("Weather Information: "+ results[i].weatherInfo);
-      // d.append(fullname);
-      // d.append(name);
-      // d.append(description);
-      // d.append(directionsInfo);
-      // d.append(weatherInfo);
-      // d.append("<hr>");
-      // $("#nanp-view").append(d);
-      console.log('name', name);
-      console.log('description', description);
-      $("#parks-table > tbody").append("<tr><td>" + name + "</td><td>" +
-  bougie + "</td><td>" + description + "</td></tr>");
-    }//End of if
-    }//End of loop
-  });//End of function npData
+  var restaurantPrices = [];
+  var rvAllowed = false;
+  var internet = false;
+  var userRating = -1;
+  var bougieScore = 0;
+  var bougieLabel = 'Bad';
+
+  function calculateBougieScore() {
+  bougieScoreRestaurant();
+  bougieScorePrice();
+  bougieScoreRV();
+  bougieScoreInternet();
+  bougieScoreUser()
+  };
+  function bougieScoreRestaurant() {
+  if (restaurantPrices.length > 0) {
+    bougieScore++
+  }; //close if; nearbyRestaurants
+  } //close function; bougieScoreRestaurant
+  function bougieScorePrice() {
+  var price2 = restaurantPrices.indexOf(2);
+  var price3 = restaurantPrices.indexOf(3);
+  var price4 = restaurantPrices.indexOf(4);
+  if (price4 > -1) {
+      bougieScore += 3
+  } //close if; price4
+  else if (price3 > -1) {
+      bougieScore += 2
+  } //close if; price3
+  else if (price2 > -1) {
+      bougieScore++
+  } //close if; price2
+  } //close function; bougieScorePrice
+  function bougieScoreRV() {
+  if (rvAllowed) {
+    bougieScore++
+  } //close if; rvAllowed
+  }//close function; bougieScoreRV
+  function bougieScoreInternet() {
+  if (internet) {
+    bougieScore++
+  } //close if; internet
+  }//close function; bougieScoreInternet
+  function bougieScoreUser() {
+  if (userRating > .5) {
+    bougieScore += 4
+  } //close if; userRating
+  else if (userRating < .5 && userRating >= 0) {
+    bougieScore -= 4
+  } //close else if; userRating
+  }//close function; bougieScoreUser
+
+  function setBougieLabel() {
+    if (bougieScore >= 3) {
+      bougieLabel = 'Bougie'
+    }
+  }
+
+$("#find-nanp").on("click", function(event) {
+  event.preventDefault();
+  var state = $("#nanp-input").val();
+  console.log(state);
+  // var queryURL = "https://developer.nps.gov/api/v1/parks?stateCode=" + np + "&api_key=ebkHAQqxYcIP2uGebz8ASYNVFfvte7BsrBhfhAvC&limit=1";
+  var parksQueryURL = "https://developer.nps.gov/api/v1/parks?stateCode=" + state + "&api_key=ebkHAQqxYcIP2uGebz8ASYNVFfvte7BsrBhfhAvC";
+  var campgroundsQueryURL = "https://developer.nps.gov/api/v1/campgrounds?stateCode=" + state + "&api_key=ebkHAQqxYcIP2uGebz8ASYNVFfvte7BsrBhfhAvC";
+  var parksResults;
+  var campgroundsResults;
+
+  // ajax calls to NPS API
+  function parksAJAX() {
+    return $.ajax({
+    url: parksQueryURL,
+    method: "GET",
+    dataType:"json",
+    success: function(parksData) {
+      parksResults = (parksData.data);
+    }
+  });
+} //close function, parksAJAX
+
+  function campgroundsAJAX() {
+    return $.ajax({
+    url: campgroundsQueryURL,
+    method: "GET",
+    dataType:"json",
+    success: function(campgroundsData) {
+      campgroundsResults = (campgroundsData.data);
+    }
+  });
+} //close function, campgroundsAJAX
+
+  $.when(parksAJAX(), campgroundsAJAX()).done(function(parksData, campgroundsData) {
+  $("#parks-table > tbody").empty();
+  console.log(parksResults);
+  console.log(campgroundsResults);
+
+  function setCampgroundVars() {
+    rvAllowed = campgroundsResults[j].accessibility.rvAllowed;
+    internet = campgroundsResults[j].amenities.internetConnectivity;
+  }
+
+  for(var i = 0;i<parksResults.length;i++){
+    var designation = parksResults[i].designation;
+    if(designation==="National Park" || designation==="National and State Parks"){
+    var parkName = parksResults[i].name;
+    console.log('parkName', parkName);
+    var description = parksResults[i].description;
+    var parkCode = parksResults[i].parkCode;
+    var stampLocation = 'assets/images/Click Pics/' + parkName + '.jpg';
+    var stampImage = '<img class="stamp", src="' + stampLocation + '" alt="' + parkName + ' Image">';
+
+      for (var j = 0; j < campgroundsResults.length; j++) {
+        if (campgroundsResults[j].parkCode === parksResults[i].parkCode) {
+          setCampgroundVars();
+          console.log('rvAllowed', rvAllowed);
+          console.log('internet', internet);
+        }; //close if, campground within park
+      }; //close loop, parkCodeIndex
+
+    $("#parks-table > tbody").append("<tr><td>" + parkName + "</td><td>" + stampImage + "</td><td>" + bougieLabel + "</td></tr>");
+    }//End of if, designation
+    }//End of loop, display name, description
+  });//End of function parksData, campgroundsData
 });//End of onclick function
 
-// $("#find-nanp-photo").on("click", function(event) {
-//   event.preventDefault();
-//   var photo = $("#nanp-input-photo").val();
-//   console.log(photo);
-//   var queryURLphoto = "https://pixabay.com/api/?key=7657924-0bde27079c14e7a1dd1053bf8&q=" + photo + "&per_page=3";
-//   console.log(queryURLphoto);
-//   $.ajax({
-//     url: queryURLphoto,
-//     method: "GET"
-//   }).done(function(photoData){
-//     var photoResult = (photoData.hits);
-//     console.log(photoResult);
-//     for(var i = 0;i < photoResult.length;i++){
-//       var d = $("<div>");
-//       var image = $("<img>");
-//       image.attr("src", photoResult[i].webformatURL)
-//       d.append(image);
-//       $("#nanp-view-photo").append(d);
-//     }//End of loop
-//   });//End of photoData function
-// }); //End of onclick
+}); //Close function, document.ready
