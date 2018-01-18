@@ -1,7 +1,5 @@
-# Project1
-
 ## Project Name
-* Bad or Bougie
+* Bad & Bougie
 
 ### Description
 * We get you camping in style. This app will give the luxury minded user all the info they need to get outdoors and back without really roughing it.
@@ -12,6 +10,8 @@
   * Best bars and restaurants nearby
   * Best selfie spots that are easy to get to
   * User specified trip duration to tailor info to be presented
+  
+  
 
 #### API list
 * NPS
