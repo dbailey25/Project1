@@ -87,6 +87,7 @@ $("#find-nanp").on("click", function(event) {
     dataType:"json",
     success: function(campgroundsData) {
       campgroundsResults = (campgroundsData.data);
+      console.log(campgroundsResults);
     }
   });
 } //close function, campgroundsAJAX
@@ -108,8 +109,18 @@ $("#find-nanp").on("click", function(event) {
     console.log('parkName', parkName);
     var description = parksResults[i].description;
     var parkCode = parksResults[i].parkCode;
-    var stampLocation = 'assets/images/Click Pics/' + parkName + '.jpg';
+    var stampLocation = 'assets/images/' + parkName + '.jpeg';
     var stampImage = '<img class="stamp", src="' + stampLocation + '" alt="' + parkName + ' Image">';
+    var parkll = (getNumbers(parksResults[i].latLong));
+
+    var foursquareURL = "https://api.foursquare.com/v2/venues/search?limit=10&categoryId=4d4b7105d754a06374d81259&ll="+parkll[0]+",-"+parkll[1]+"&radius=16094&client_id=X3USWU4Z2XO3SG41Q3WKGHOKSLOJQMD2J3MC44CKGOG0TVMI&client_secret=RUFZMWJCR1NEAP2T1WJSGQXNM5Q3PMWCWCFYEYW4X12SQEPU&v=20171231";
+    $.ajax({
+      url: foursquareURL,
+      method: "GET"
+    }).done(function(foursquareData) {
+        var foursquareResults = (foursquareData.response)
+        console.log(foursquareResults);
+      });//End of function npData
 
       for (var j = 0; j < campgroundsResults.length; j++) {
         if (campgroundsResults[j].parkCode === parksResults[i].parkCode) {
@@ -126,3 +137,13 @@ $("#find-nanp").on("click", function(event) {
 });//End of onclick function
 
 }); //Close function, document.ready
+
+function getNumbers(inputString){
+    var regex=/\d+\.\d+|\.\d+|\d+/g,
+        results = [],
+        n;
+    while(n = regex.exec(inputString)) {
+        results.push(parseFloat(n[0]));
+    }
+    return results;
+}
