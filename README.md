@@ -11,9 +11,13 @@
   * Best selfie spots that are easy to get to
   * User specified trip duration to tailor info to be presented
   
-  ![](Design%20Docs/Architecture%20Diagram.png)
   
   ![](Design%20Docs/Glamping_Badandbougie_UI%20mock%20up.png)
+  
+  
+  ![](Design%20Docs/Architecture%20Diagram.png)
+  
+  
   
 
 #### API list
