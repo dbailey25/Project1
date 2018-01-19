@@ -87,7 +87,6 @@ $("#find-nanp").on("click", function(event) {
     dataType:"json",
     success: function(campgroundsData) {
       campgroundsResults = (campgroundsData.data);
-      console.log(campgroundsResults);
     }
   });
 } //close function, campgroundsAJAX
@@ -105,7 +104,7 @@ $("#find-nanp").on("click", function(event) {
   for(var i = 0;i<parksResults.length;i++){
     var designation = parksResults[i].designation;
     var nationalPark = designation.includes('National Park');
-    if(nationalPark){
+    if(designation === 'National and State Parks' || designation === 'National Park' || designation === 'National Park & Preserve'){
     var parkName = parksResults[i].name;
     console.log('parkName', parkName);
     var description = parksResults[i].description;
@@ -129,8 +128,8 @@ $("#find-nanp").on("click", function(event) {
           console.log('rvAllowed', rvAllowed);
           console.log('internet', internet);
         }; //close if, campground within park
-      }; //close loop, parkCodeIndex
-
+      }; //close loop, get campground data
+      console.log("bougieScore", bougieScore);
     $("#parks-table > tbody").append("<tr><td>" + parkName + "</td><td>" + stampImage + "</td><td>" + bougieLabel + "</td></tr>");
     }//End of if, designation
     }//End of loop, display name, description
