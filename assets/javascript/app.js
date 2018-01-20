@@ -58,6 +58,12 @@ $(document).ready(function(){
     }
   }
 
+  $("#nanp-input").keyup(function(event) {
+      if (event.keyCode === 13) {
+          $("#find-nanp").click();
+      }
+  });
+
 $("#find-nanp").on("click", function(event) {
   event.preventDefault();
   var state = $("#nanp-input").val();
