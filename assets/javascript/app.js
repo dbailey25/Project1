@@ -6,6 +6,9 @@ $(document).ready(function(){
   var userRating = -1;
   var bougieScore = 0;
   var bougieLabel = 'Bad';
+  var stateAbbreviations = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME',
+  'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND',
+   'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'];
 
   function calculateBougieScore() {
   bougieScoreRestaurant();
@@ -68,7 +71,19 @@ $("#find-nanp").on("click", function(event) {
   event.preventDefault();
   var state = $("#nanp-input").val();
   console.log(state);
-  // var queryURL = "https://developer.nps.gov/api/v1/parks?stateCode=" + np + "&api_key=ebkHAQqxYcIP2uGebz8ASYNVFfvte7BsrBhfhAvC&limit=1";
+  var input = state.toUpperCase();
+  console.log("input", input);
+  // verify the user input is valid
+  var validInput = stateAbbreviations.includes(input)
+  if (!validInput) {
+    console.log('Input is not valid');
+    // modal to instruct user to enter valid state abbreviation
+        $('#myModal').modal('show');
+        $("#nanp-input").val('');
+
+  } // close if; input validation
+  else {
+    console.log('Input is valid');
   var parksQueryURL = "https://developer.nps.gov/api/v1/parks?stateCode=" + state + "&api_key=ebkHAQqxYcIP2uGebz8ASYNVFfvte7BsrBhfhAvC";
   var campgroundsQueryURL = "https://developer.nps.gov/api/v1/campgrounds?stateCode=" + state + "&api_key=ebkHAQqxYcIP2uGebz8ASYNVFfvte7BsrBhfhAvC";
   var parksResults;
@@ -140,6 +155,7 @@ $("#find-nanp").on("click", function(event) {
     }//End of if, designation
     }//End of loop, display name, description
   });//End of function parksData, campgroundsData
+}; // close else, input validation  
 });//End of onclick function
 
 }); //Close function, document.ready
