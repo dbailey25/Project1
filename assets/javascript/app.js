@@ -1,5 +1,6 @@
 $(document).ready(function(){
 
+  var restaurantsNearby;
   var restaurantPrices = [];
   var rvAllowed = false;
   var internet = false;
@@ -9,6 +10,18 @@ $(document).ready(function(){
   var stateAbbreviations = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME',
   'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND',
    'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'];
+   var parkInfo = [{
+     parkName:'Badlands',
+     rvAllowed:0,
+     internet:false,
+     latLong:'lat:43.75, long:-102.5'
+   },
+   {
+     parkName:'Wind Cave',
+     rvAllowed:0,
+     internet:false,
+     latLong:'lat:43.57, long:-103.48'
+   }];
 
   function calculateBougieScore() {
   bougieScoreRestaurant();
@@ -17,11 +30,15 @@ $(document).ready(function(){
   bougieScoreInternet();
   bougieScoreUser()
   };
+
   function bougieScoreRestaurant() {
-  if (restaurantPrices.length > 0) {
+    console.log('check for food');
+  if (restaurantsNearby > 0) {
+    console.log('food is close');
     bougieScore++
   }; //close if; nearbyRestaurants
   } //close function; bougieScoreRestaurant
+
   function bougieScorePrice() {
   var price2 = restaurantPrices.indexOf(2);
   var price3 = restaurantPrices.indexOf(3);
@@ -67,6 +84,8 @@ $(document).ready(function(){
       }
   });
 
+$('#nanp-view').hide();
+
 $("#find-nanp").on("click", function(event) {
   event.preventDefault();
   var state = $("#nanp-input").val();
@@ -84,78 +103,130 @@ $("#find-nanp").on("click", function(event) {
   } // close if; input validation
   else {
     console.log('Input is valid');
-  var parksQueryURL = "https://developer.nps.gov/api/v1/parks?stateCode=" + state + "&api_key=ebkHAQqxYcIP2uGebz8ASYNVFfvte7BsrBhfhAvC";
-  var campgroundsQueryURL = "https://developer.nps.gov/api/v1/campgrounds?stateCode=" + state + "&api_key=ebkHAQqxYcIP2uGebz8ASYNVFfvte7BsrBhfhAvC";
-  var parksResults;
-  var campgroundsResults;
+console.log('WindCave RV', parkInfo[1].rvAllowed);
+$('#parksBody').empty();
 
-  // ajax calls to NPS API
-  function parksAJAX() {
-    return $.ajax({
-    url: parksQueryURL,
-    method: "GET",
-    dataType:"json",
-    success: function(parksData) {
-      parksResults = (parksData.data);
-    }
-  });
-} //close function, parksAJAX
+// for (var x = 0; x < parkInfo.length; x++) {
+//     var parkll = (getNumbers(parkInfo[x].latLong));
+//     var foursquareURL = "https://api.foursquare.com/v2/venues/search?limit=10&categoryId=4d4b7105d754a06374d81259&ll="+parkll[0]+",-"+parkll[1]+"&radius=16094&client_id=X3USWU4Z2XO3SG41Q3WKGHOKSLOJQMD2J3MC44CKGOG0TVMI&client_secret=RUFZMWJCR1NEAP2T1WJSGQXNM5Q3PMWCWCFYEYW4X12SQEPU&v=20171231";
+//     $.ajax({
+//       url: foursquareURL,
+//       method: "GET"
+//     }).done(function(foursquareData) {
+//         var foursquareResults = (foursquareData.response);
+//         console.log(foursquareResults);
+//         restaurantsNearby = foursquareResults.venues.length;
+//         console.log('#restaurants', restaurantsNearby);
+//         calculateBougieScore();
+//         setBougieLabel();
+//         console.log(parkName + 'Score' + bougieScore);
+//       });//End of function, foursquareData
 
-  function campgroundsAJAX() {
-    return $.ajax({
-    url: campgroundsQueryURL,
-    method: "GET",
-    dataType:"json",
-    success: function(campgroundsData) {
-      campgroundsResults = (campgroundsData.data);
-    }
-  });
-} //close function, campgroundsAJAX
 
-  $.when(parksAJAX(), campgroundsAJAX()).done(function(parksData, campgroundsData) {
-  $("#parks-table > tbody").empty();
-  console.log(parksResults);
-  console.log(campgroundsResults);
+  // var parkName = parkInfo[x].parkName;
+  // var stampLocation = 'assets/images/Click Pics/' + parkName + '.jpg';
+  // var stampImage = '<img class="stamp", src="' + stampLocation + '" alt="' + parkName + ' Image">';
+  //   rvAllowed = parkInfo[x].rvAllowed;
+  //   internet = parkInfo[x].internet;
 
-  function setCampgroundVars() {
-    rvAllowed = campgroundsResults[j].accessibility.rvAllowed;
-    internet = campgroundsResults[j].amenities.internetConnectivity;
-  }
+      $(".card-group").remove();
+      $("#parksHead").empty();
+      $('#nanp-view').show();
 
-  for(var i = 0;i<parksResults.length;i++){
-    var designation = parksResults[i].designation;
-    var nationalPark = designation.includes('National Park');
-    if(designation === 'National and State Parks' || designation === 'National Park' || designation === 'National Park & Preserve'){
-    var parkName = parksResults[i].name;
-    console.log('parkName', parkName);
-    var description = parksResults[i].description;
-    var parkCode = parksResults[i].parkCode;
-    var stampLocation = 'assets/images/Click Pics/' + parkName + '.jpg';
-    var stampImage = '<img class="stamp", src="' + stampLocation + '" alt="' + parkName + ' Image">';
-    var parkll = (getNumbers(parksResults[i].latLong));
 
-    var foursquareURL = "https://api.foursquare.com/v2/venues/search?limit=10&categoryId=4d4b7105d754a06374d81259&ll="+parkll[0]+",-"+parkll[1]+"&radius=16094&client_id=X3USWU4Z2XO3SG41Q3WKGHOKSLOJQMD2J3MC44CKGOG0TVMI&client_secret=RUFZMWJCR1NEAP2T1WJSGQXNM5Q3PMWCWCFYEYW4X12SQEPU&v=20171231";
-    $.ajax({
-      url: foursquareURL,
-      method: "GET"
-    }).done(function(foursquareData) {
-        var foursquareResults = (foursquareData.response)
-        console.log(foursquareResults);
-      });//End of function npData
+      // $("#parksHead").append("<tr><th>Park Name</th><th>Image</th><th>Bad or Bougie</th></tr>");
+      // $('#nanp-view').attr('class', 'animated slideInLeft');
+      // var appendRow = $("#parks-table > tbody").append("<tr><td>" + parkName + "</td><td>" + stampImage + "</td><td>" + bougieLabel + "</td></tr>");
+      // appendRow.attr('class', 'animated slideInLeft');
 
-      for (var j = 0; j < campgroundsResults.length; j++) {
-        if (campgroundsResults[j].parkCode === parksResults[i].parkCode) {
-          setCampgroundVars();
-          console.log('rvAllowed', rvAllowed);
-          console.log('internet', internet);
-        }; //close if, campground within park
-      }; //close loop, get campground data
-      console.log("bougieScore", bougieScore);
-    $("#parks-table > tbody").append("<tr><td>" + parkName + "</td><td>" + stampImage + "</td><td>" + bougieLabel + "</td></tr>");
-    }//End of if, designation
-    }//End of loop, display name, description
-  });//End of function parksData, campgroundsData
-}; // close else, input validation  
+
+// }
+
+
+    // NPS API functionality
+//   var parksQueryURL = "https://developer.nps.gov/api/v1/parks?stateCode=" + state + "&api_key=ebkHAQqxYcIP2uGebz8ASYNVFfvte7BsrBhfhAvC";
+//   var campgroundsQueryURL = "https://developer.nps.gov/api/v1/campgrounds?stateCode=" + state + "&api_key=ebkHAQqxYcIP2uGebz8ASYNVFfvte7BsrBhfhAvC";
+//   var parksResults;
+//   var campgroundsResults;
+//
+//   // ajax calls to NPS API
+//   function parksAJAX() {
+//     return $.ajax({
+//     url: parksQueryURL,
+//     method: "GET",
+//     dataType:"json",
+//     success: function(parksData) {
+//       parksResults = (parksData.data);
+//     }
+//   });
+// } //close function, parksAJAX
+//
+//   function campgroundsAJAX() {
+//     return $.ajax({
+//     url: campgroundsQueryURL,
+//     method: "GET",
+//     dataType:"json",
+//     success: function(campgroundsData) {
+//       campgroundsResults = (campgroundsData.data);
+//     }
+//   });
+// } //close function, campgroundsAJAX
+//
+//   $.when(parksAJAX(), campgroundsAJAX()).done(function(parksData, campgroundsData) {
+//   $(".card-group").attr('class', 'animated slideOutDown');
+//   $(".card-group").remove();
+//   console.log(parksResults);
+//   console.log(campgroundsResults);
+//   $("#parksHead").empty();
+//   $('#parksBody').empty();
+//   $("#parksHead").append("<tr><th>Park Name</th><th>Image</th><th>Bad or Bougie</th></tr>");
+//   $('#nanp-view').attr('class', 'animated slideInLeft');
+//
+//
+//   function setCampgroundVars() {
+//     rvAllowed = campgroundsResults[j].accessibility.rvAllowed;
+//     internet = campgroundsResults[j].amenities.internetConnectivity;
+//   }
+//
+//   for(var i = 0;i<parksResults.length;i++){
+//     var designation = parksResults[i].designation;
+//     var nationalPark = designation.includes('National Park');
+//     if(designation === 'National and State Parks' || designation === 'National Park' || designation === 'National Park & Preserve'){
+//     var parkName = parksResults[i].name;
+//     console.log('parkName', parkName);
+//     var description = parksResults[i].description;
+//     var parkCode = parksResults[i].parkCode;
+//     var stampLocation = 'assets/images/Click Pics/' + parkName + '.jpg';
+//     var stampImage = '<img class="stamp", src="' + stampLocation + '" alt="' + parkName + ' Image">';
+//     var parkll = (getNumbers(parksResults[i].latLong));
+
+
+
+
+  //   var foursquareURL = "https://api.foursquare.com/v2/venues/search?limit=10&categoryId=4d4b7105d754a06374d81259&ll="+parkll[0]+",-"+parkll[1]+"&radius=16094&client_id=X3USWU4Z2XO3SG41Q3WKGHOKSLOJQMD2J3MC44CKGOG0TVMI&client_secret=RUFZMWJCR1NEAP2T1WJSGQXNM5Q3PMWCWCFYEYW4X12SQEPU&v=20171231";
+  //   $.ajax({
+  //     url: foursquareURL,
+  //     method: "GET"
+  //   }).done(function(foursquareData) {
+  //       var foursquareResults = (foursquareData.response)
+  //       console.log(foursquareResults);
+  //     });//End of function npData
+  //
+  //     for (var j = 0; j < campgroundsResults.length; j++) {
+  //       if (campgroundsResults[j].parkCode === parksResults[i].parkCode) {
+  //         setCampgroundVars();
+  //         console.log('rvAllowed', rvAllowed);
+  //         console.log('internet', internet);
+  //       }; //close if, campground within park
+  //     }; //close loop, get campground data
+  //     console.log("bougieScore", bougieScore);
+  //
+  //     var appendRow = $("#parks-table > tbody").append("<tr><td>" + parkName + "</td><td>" + stampImage + "</td><td>" + bougieLabel + "</td></tr>");
+  //     appendRow.attr('class', 'animated slideInLeft');
+  //   }//End of if, designation
+  //   }//End of loop, display name, description
+  // });//End of function parksData, campgroundsData
+}; // close else, input validation
 });//End of onclick function
 
 }); //Close function, document.ready
