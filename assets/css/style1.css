@@ -17,6 +17,39 @@
   border: 1px solid black;
 } */
 
+#ex1Slider .slider-selection {
+	background: #BABABA;
+}
+
+.show{
+  display: block;
+}
+
+/*#show-Rating-List{
+  display: none;
+}*/
+#full-Park-Amenities-list{
+  display: none;
+}
+#full-Park-Amenities-list.show{
+  display: block;
+}
+
+#full-Fine-Dining-list{
+  display: none;
+}
+#full-Fine-Dining-list.show{
+  display: block;
+}
+#full-user-rating{
+  display: none;
+}
+#full-user-rating.show{
+  display: block;
+}
+
+
+
 .jumbotron {
   background-image: url('../images/jumbotronbackground-01.png');
   background-size: 100% 100%;

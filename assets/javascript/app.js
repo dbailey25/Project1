@@ -1,3 +1,5 @@
+
+
 $(document).ready(function(){
 
   var restaurantPrices = [];
@@ -6,6 +8,18 @@ $(document).ready(function(){
   var userRating = -1;
   var bougieScore = 0;
   var bougieLabel = 'Bad';
+  var database = firebase.database();
+  var YouRateIt = 'Click here';
+
+  var ShowParkAmenities = $("#ShowParkAmenities");
+  var ShowFineDining = $("#ShowFineDining");
+  var ShowRatinglist = $("#ShowRatinglist");
+
+  //console.log(ShowParkAmenities)
+
+  $("#ShowParkAmenities").on("click", showParkAminities);
+  $("#ShowFineDining").on("click", showFineDining);
+  $("#ShowRatinglist").on("click", showRatinglist);
 
   function calculateBougieScore() {
   bougieScoreRestaurant();
@@ -58,6 +72,143 @@ $(document).ready(function(){
     }
   }
 
+  $("#add-train-btn3").on("click", function(event) {
+    event.preventDefault();
+
+    // Grabs user input
+     var parkName3 = $("#parkName3").val().trim();
+     var BadorBougie = $("#BadorBougie").val().trim();
+
+    // Creates local "temporary" object for holding employee data
+    var parkdata3 = {
+      namethree: parkName3,
+      Rating: BadorBougie
+    };
+
+    // Uploads employee data to the database
+    database.ref().push(parkdata3);
+
+    // Logs everything to console
+    console.log(parkName3.namethree);
+    console.log(BadorBougie.Rating);
+
+    // Alert
+    //alert("New Train Time successfully added");
+
+    // Clears all of the text-boxes
+     $("#parkName3").val("");
+     $("#BadorBougie").val("");
+  });
+
+  $("#add-train-btn2").on("click", function(event) {
+    event.preventDefault();
+
+    // Grabs user input
+     var parkName2 = $("#parkName2").val().trim();
+     var FineDining = $("#FineDining").val().trim();
+
+    // Creates local "temporary" object for holding employee data
+    var parkdata2 = {
+      nametwo: parkName2,
+      DiningOptions: FineDining
+    };
+
+    // Uploads employee data to the database
+    database.ref().push(parkdata2);
+
+    // Logs everything to console
+    console.log(parkName2.nametwo);
+    console.log(FineDining.DiningOptions);
+
+    // Clears all of the text-boxes
+     $("#parkName2").val("");
+     $("#FineDining").val("");
+  });
+
+  $("#add-train-btn1").on("click", function(event) {
+    event.preventDefault();
+
+    // Grabs user input
+    var parkName = $("#parkName").val().trim();
+    var Amenities = $("#Amenities").val().trim();
+
+    // Creates local "temporary" object for holding employee data
+    var parkdata = {
+      name: parkName,
+      ParkAmenities: Amenities
+    };
+
+    // Uploads employee data to the database
+    database.ref().push(parkdata);
+
+    // Logs everything to console
+    console.log(parkName.name);
+    console.log(Amenities.ParkAmenities);
+
+    // Alert
+    //alert("New Train Time successfully added");
+
+    // Clears all of the text-boxes
+    $("#parkName").val("");
+    $("#Amenities").val("");
+  });
+// add onclick even here....
+
+function showParkAminities() {
+  $("#full-Park-Amenities-list").toggleClass('show');
+  database.ref().on("child_added", function(childSnapshot, prevChildKey) {
+    //console.log(childSnapshot.val());
+
+    // Store everything into a variable.
+    var parkName = childSnapshot.val().name;
+    var Amenities = childSnapshot.val().ParkAmenities;
+
+    // full list of items to the well
+    $("#full-Park-Amenities-list").append(
+      "<div class='well'> </span><span class='parkName'> " + childSnapshot.val().name +
+      " </span><span class='amenities'> " + childSnapshot.val().ParkAmenities +
+       "</span></div>");
+
+  });
+}//end function
+
+function showFineDining() {
+  $("#full-Fine-Dining-list").toggleClass('show');
+  database.ref().on("child_added", function(childSnapshot, prevChildKey) {
+    //console.log(childSnapshot.val());
+
+    // Store everything into a variable.
+    var parkName2 = childSnapshot.val().nametwo;
+    var FineDining = childSnapshot.val().DiningOptions;
+
+       // full list of items to the well
+       $("#full-Fine-Dining-list").append(
+         "<div class='well'> </span><span class='parkName'> " + childSnapshot.val().nametwo +
+         " </span><span class='amenities'> " + childSnapshot.val().DiningOptions +
+          "</span></div>");
+  });
+}//end function showFineDining
+
+function showRatinglist() {
+  $("#full-user-rating").toggleClass('show');
+
+  database.ref().on("child_added", function(childSnapshot, prevChildKey) {
+    //console.log(childSnapshot.val());
+
+    // Store everything into a variable.
+    var parkName3 = childSnapshot.val().namethree;
+    var BadorBougie = childSnapshot.val().Rating;
+
+
+       // full list of items to the well
+       $("#full-user-rating").append(
+         "<div class='well'> </span><span class='parkName'> " + childSnapshot.val().namethree +
+         " </span><span class='amenities'> " + childSnapshot.val().Rating +
+          "</span></div>");
+  });
+}//end function ShowRatinglist
+
+
 $("#find-nanp").on("click", function(event) {
   event.preventDefault();
   var state = $("#nanp-input").val();
@@ -78,6 +229,7 @@ $("#find-nanp").on("click", function(event) {
       parksResults = (parksData.data);
     }
   });
+
 } //close function, parksAJAX
 
   function campgroundsAJAX() {
@@ -130,7 +282,8 @@ $("#find-nanp").on("click", function(event) {
         }; //close if, campground within park
       }; //close loop, get campground data
       console.log("bougieScore", bougieScore);
-    $("#parks-table > tbody").append("<tr><td>" + parkName + "</td><td>" + stampImage + "</td><td>" + bougieLabel + "</td></tr>");
+
+    $("#parks-table > tbody").append("<tr><td>" + parkName + "</td><td>" + stampImage + "</td> <td>" + bougieLabel + "</td> <td>" + YouRateIt + "</td></tr>");
     }//End of if, designation
     }//End of loop, display name, description
   });//End of function parksData, campgroundsData
@@ -147,3 +300,16 @@ function getNumbers(inputString){
     }
     return results;
 }
+
+
+      var config = {
+      apiKey: "AIzaSyAKnRMMYp3mMBPRoch0R05HifFI8rCk2QU",
+      authDomain: "groupproject1-549f6.firebaseapp.com",
+      databaseURL: "https://groupproject1-549f6.firebaseio.com",
+      projectId: "groupproject1-549f6",
+      storageBucket: "",
+      messagingSenderId: "966755267892"
+    };
+    firebase.initializeApp(config);
+
+    var dataRef = firebase.database();

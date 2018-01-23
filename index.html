@@ -42,40 +42,91 @@
     <!-- JUMBOTRON END -->
   </div>
 
-    <!-- title -->
-    <!-- <form id="nanp-form">
-      <label for="nanp-input">North American National Park Search</label>
-      <br>
-      <input type="text" id="nanp-input">
-      <br>
-      <input id="find-nanp" type="submit" value="North American National Park Search">
-    </form>
-    <hr> -->
-
     <!-- PANELS START -->
     <div class="card-group">
       <div class="card">
         <img class="card-img-top img-fluid" src="assets/images/animat-map-color.gif" alt="Card image cap">
         <div class="card-body">
           <h3 class="card-title">Park Amenities</h3>
-          <p class="card-text">What does this Park have that others don't? Take a peak.</p>
-          <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
+          <p class="card-text">What does this Park have that others don't?</p>
+          <form>
+            <div class="form-group">
+              <label for="train-name ">Park Name</label>
+              <input class="form-control" id="parkName" type="text">
+            </div>
+            <div class="form-group">
+              <label for="Frequency">Amenities</label>
+              <input class="form-control" id="Amenities" type="text">
+            </div>
+            <button class="btn btn-primary" id="add-train-btn1">Submit Park Amenities</button>
+          </form>
+            <div class="card">
+              <div class="card-block" >
+                <h3 class="card-title">All Park Amenities</h3>
+                <button class="btn btn-primary" id="ShowParkAmenities" > Park Name & Amenities</button>
+              <div id="full-Park-Amenities-list"></div>
+              </div>
+            </div>
+
+
         </div>
       </div>
       <div class="card">
         <img class="card-img-top img-fluid" src="assets/images/animat-coffee-color.gif" alt="Card image cap">
         <div class="card-body">
           <h3 class="card-title">Nearby Fine Dining</h3>
-          <p class="card-text">Long day in the wild? Cozy up with your fave drink. Let loose - you deserve it.</p>
-          <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
+          <p class="card-text">Long day in the wild? Cozy up with a drink. </p>
+          <form>
+            <div class="form-group">
+              <label for="train-name ">Park Name</label>
+              <input class="form-control" id="parkName2" type="text">
+            </div>
+            <div class="form-group">
+              <label for="Frequency">Fine Dining</label>
+              <input class="form-control" id="FineDining" type="text">
+            </div>
+            <button class="btn btn-primary" id="add-train-btn2" >Submit Fine Dining Options</button><br>
+          </form>
+
+
+          <div class="card">
+            <div class="card-block">
+              <h3 class="card-title">All Nearby Fine Dining</h3>
+              <button class="btn btn-primary" id="ShowFineDining" > Park Name & Nearby Fine Dining</button><br>
+            <div id="full-Fine-Dining-list"></div>
+            </div>
+          </div>
+
+
         </div>
       </div>
       <div class="card">
         <img class="card-img-top img-fluid" src="assets/images/animat-checkmark-color.gif" alt="Card image cap">
         <div class="card-body">
           <h3 class="card-title">Rate It!</h3>
-          <p class="card-text">Help others like yourself find their bougie fit! You know you want to.</p>
-          <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
+          <p class="card-text">Help others like yourself find their bougie fit! </p>
+          <div class="panel-body">
+
+            <!-- Entry Form -->
+            <form>
+              <div class="form-group">
+                <label for="Destination">Park Name</label>
+                <input class="form-control" id="parkName3" type="text">
+              </div>
+              <div class="form-group">
+                <label for="FirstTrainTime">Rate the Park Bad or Bougie</label>
+                <input class="form-control" id="BadorBougie" type="text">
+              </div>
+              <button class="btn btn-primary" id="add-train-btn3" >Submit Your Rating</button><br>
+            </form>
+            <div class="card">
+              <div class="card-block" id="show-Rating-List">
+                <h3 class="card-title">Park Ratings</h3>
+                <button class="btn btn-primary" id="ShowRatinglist" > Park Name & Rating </button>
+              <div id="full-user-rating"></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -88,6 +139,8 @@
             <th>Park Name</th>
             <th>Image</th>
             <th>Bad or Bougie</th>
+
+
           </tr>
         </thead>
         <tbody>
@@ -97,19 +150,7 @@
 
     <!-- Firebase... -->
     <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase.js"></script>
-    <script>
-        // Initialize Firebase
-        var config = {
-          apiKey: "AIzaSyACcPb4g5kmWTvsLPagxtrMfV8ShgALWGU",
-          authDomain: "groupproject1-d169c.firebaseapp.com",
-          databaseURL: "https://groupproject1-d169c.firebaseio.com",
-          projectId: "groupproject1-d169c",
-          storageBucket: "groupproject1-d169c.appspot.com",
-          messagingSenderId: "480872825289"
-        };
-        firebase.initializeApp(config);
-    </script>
-    <!-- End Firebase Script .... -->
+
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
