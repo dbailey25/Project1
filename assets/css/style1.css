@@ -1,6 +1,6 @@
 img{
-  height: 100px;
-  width: 100px;
+  /* height: 100px; */
+  /* width: 10px; */
 }
 #title{
   font-weight: bold;
@@ -43,4 +43,9 @@ img{
 
 #parks-table {
   padding-left: 100px;
+}
+
+#nanp-view {
+  width: 100%;
+  /* display: inline-block; */
 }
