@@ -21,7 +21,15 @@
 	background: #BABABA;
 }
 
+#ex1 .slider-selection {
+	background: #BABABA;
+}
+
 .show{
+  display: block;
+}
+
+.hide{
   display: block;
 }
 
@@ -48,7 +56,22 @@
   display: block;
 }
 
+#full-Park-Amenities-list.hide{
+  display: block;
+}
 
+#full-Fine-Dining-list{
+  display: none;
+}
+#full-Fine-Dining-list.hide{
+  display: block;
+}
+#full-user-rating{
+  display: none;
+}
+#full-user-rating.hide{
+  display: block;
+}
 
 .jumbotron {
   background-image: url('../images/jumbotronbackground-01.png');

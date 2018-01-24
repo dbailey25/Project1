@@ -17,9 +17,15 @@ $(document).ready(function(){
 
   //console.log(ShowParkAmenities)
 
-  $("#ShowParkAmenities").on("click", showParkAminities);
+  $("#ShowParkAmenities").on("click", showParkAmenities); //adakfdajfkadjfda
   $("#ShowFineDining").on("click", showFineDining);
   $("#ShowRatinglist").on("click", showRatinglist);
+
+//   $('#ex1').slider({
+// 	formatter: function(value) {
+// 		return 'Current value: ' + value;
+// 	}
+// });
 
   function calculateBougieScore() {
   bougieScoreRestaurant();
@@ -92,9 +98,6 @@ $(document).ready(function(){
     console.log(parkName3.namethree);
     console.log(BadorBougie.Rating);
 
-    // Alert
-    //alert("New Train Time successfully added");
-
     // Clears all of the text-boxes
      $("#parkName3").val("");
      $("#BadorBougie").val("");
@@ -145,23 +148,30 @@ $(document).ready(function(){
     console.log(parkName.name);
     console.log(Amenities.ParkAmenities);
 
-    // Alert
-    //alert("New Train Time successfully added");
-
     // Clears all of the text-boxes
     $("#parkName").val("");
     $("#Amenities").val("");
   });
 // add onclick even here....
 
-function showParkAminities() {
+function clearButton() {
+
+}
+
+function showParkAmenities() {
   $("#full-Park-Amenities-list").toggleClass('show');
+
   database.ref().on("child_added", function(childSnapshot, prevChildKey) {
-    //console.log(childSnapshot.val());
+    console.log(childSnapshot.val());
+
+    //clear the div
+
+  $( "#full-Park-Amenities-list" ).empty();
+
 
     // Store everything into a variable.
-    var parkName = childSnapshot.val().name;
-    var Amenities = childSnapshot.val().ParkAmenities;
+    // var parkName = childSnapshot.val().name;
+    // var Amenities = childSnapshot.val().ParkAmenities;
 
     // full list of items to the well
     $("#full-Park-Amenities-list").append(
@@ -175,11 +185,12 @@ function showParkAminities() {
 function showFineDining() {
   $("#full-Fine-Dining-list").toggleClass('show');
   database.ref().on("child_added", function(childSnapshot, prevChildKey) {
-    //console.log(childSnapshot.val());
+    console.log(childSnapshot.val());
 
+    $( "#full-Fine-Dining-list" ).empty();
     // Store everything into a variable.
-    var parkName2 = childSnapshot.val().nametwo;
-    var FineDining = childSnapshot.val().DiningOptions;
+    // var parkName2 = childSnapshot.val().nametwo;
+    // var FineDining = childSnapshot.val().DiningOptions;
 
        // full list of items to the well
        $("#full-Fine-Dining-list").append(
@@ -193,8 +204,9 @@ function showRatinglist() {
   $("#full-user-rating").toggleClass('show');
 
   database.ref().on("child_added", function(childSnapshot, prevChildKey) {
-    //console.log(childSnapshot.val());
+    console.log(childSnapshot.val());
 
+      $( "#full-user-rating" ).empty();
     // Store everything into a variable.
     var parkName3 = childSnapshot.val().namethree;
     var BadorBougie = childSnapshot.val().Rating;
