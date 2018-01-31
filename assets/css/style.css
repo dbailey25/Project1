@@ -1,11 +1,46 @@
-h1 {
-  color: green;
+img{
+  width: 150px;
+}
+#title{
   font-weight: bold;
 }
-label {
+#text1 {
+  font-size: 20%;
   font-weight: bold;
 }
-img {
-  height: 300px;
-  width: 300px;
+#text2 {
+  font-size: 20%;
+}
+#images{
+  margin: 1%;
+  height: 30%;
+  width: 30%;
+}
+
+.jumbotron {
+  background-image: url('../images/jumbotronbackground-01.png');
+  background-size: 100% 100%;
+}
+
+.card-img-top {
+  align-self: center;
+  align-items: center;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  max-width: 300px;
+  align-content: center;
+}
+
+.card-body {
+  text-align: center;
+  padding-top: 0px;
+  padding-bottom: 20px;
+}
+
+#parks-table {
+  padding-left: 100px;
+}
+
+#nanp-view {
+  width: 100%;
 }
