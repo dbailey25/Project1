@@ -21,13 +21,6 @@ $(document).ready(function() {
     bougieScoreUser()
   };
 
-  $("#nanp-input").keyup(function(event) {
-    if (event.keyCode === 13) {
-      $("#find-nanp").click();
-    }
-  });
-
-
 
   $("#nanp-input").keyup(function(event) {
     if (event.keyCode === 13) {
@@ -38,23 +31,18 @@ $(document).ready(function() {
   $("#find-nanp").on("click", function(event) {
     event.preventDefault();
     var state = $("#nanp-input").val();
-    console.log(state);
     var input = state.toUpperCase();
-    console.log("input", input);
     // verify the user input is valid
     var validInput = stateAbbreviations.includes(input)
     if (!validInput) {
-      console.log('Input is not valid');
       // modal to instruct user to enter valid state abbreviation
       $('#myModal').modal('show');
       $("#nanp-input").val('');
 
     } // close if; input validation
     else {
-      console.log('Input is valid');
       if (input !== currentQuery) {
         currentQuery = input;
-        console.log(currentQuery);
         // clear previous elements
         $(".card-group").remove();
         $("#parksHead").empty();
@@ -87,12 +75,7 @@ $(document).ready(function() {
           }); // close ajax call
         } //close function, parksAJAX
 
-
-        // NPS/parks API call
-
-
         $.when(parksAJAX()).done(function(parksData) {
-          console.log(parksResults);
 
           for (var i = 0; i < parksResults.length; i++) {
             // var userRating = -1;
@@ -118,23 +101,8 @@ $(document).ready(function() {
 
               // Foursquare API call
               var parkll = (getNumbers(parksResults[i].latLong));
-              console.log(parkll);
               var foursquareURL = "https://api.foursquare.com/v2/venues/search?limit=5&categoryId=4d4b7105d754a06374d81259&ll=" + parkll[0] + ",-" + parkll[1] + "&radius=16094&client_id=X3USWU4Z2XO3SG41Q3WKGHOKSLOJQMD2J3MC44CKGOG0TVMI&client_secret=RUFZMWJCR1NEAP2T1WJSGQXNM5Q3PMWCWCFYEYW4X12SQEPU&v=20171231";
 
-              // $.ajax({
-              //   url: foursquareURL,
-              //   method: "GET"
-              // }).done(function(foursquareData) {
-              //   var foursquareResults = (foursquareData.response)
-              //   console.log(foursquareResults);
-              //   var restaurantsNearby = foursquareResults.venues.length;
-              //   if (restaurantsNearby > 0) {
-              //     console.log('food is close');
-              //     restaurantScore++
-              //   }; //close if; nearbyRestaurants
-              //   restaurantScoreArray.push(restaurantScore);
-              //   console.log('Food Score ' + restaurantScore);
-              // }); //End of function foursquare response
 
               // NPS/campgrounds API call
               var campgroundsQueryURL = "https://developer.nps.gov/api/v1/campgrounds?parkCode=" + parkCode + "&api_key=ebkHAQqxYcIP2uGebz8ASYNVFfvte7BsrBhfhAvC";
@@ -152,7 +120,6 @@ $(document).ready(function() {
               } //close function, parksAJAX
 
               $.when(campgroundsAJAX()).done(function(campgroundsData) {
-                console.log(campgroundsResults);
 
                 // check each campground for bougie amenities
                 for (var j = 0; j < campgroundsResults.length; j++) {
@@ -165,7 +132,6 @@ $(document).ready(function() {
 
                   // record parkCode of each campground
                   parkCodeArray.push(campCode);
-                  console.log(parkCodeArray);
                   // determine to which park ratings of these campgrounds should be assigned
                   function mode(array) {
                     return array.sort((a, b) =>
@@ -175,7 +141,6 @@ $(document).ready(function() {
                   }
 
                   var modeParkCode = mode(parkCodeArray);
-                  console.log(modeParkCode);
                   // variable to store the modeParkCode as a JQuery selector
                   var campCodeSelector = '#' + modeParkCode;
                   // are flush toilets present
@@ -195,16 +160,10 @@ $(document).ready(function() {
                     hasInternet++
                   }
 
-
                   // determine bougie rating based on campground amenities and record result
-                  console.log('flushToilets', flushToilets);
-                  console.log('rvAllowed', rvAllowed);
-                  console.log('hasInternet', hasInternet);
                   var bougieAmenities = flushToilets + rvAllowed + hasInternet;
-                  console.log('bougieAmenities', bougieAmenities);
                   if (bougieAmenities >= 2) {
                     // campgroundRating ='Bougie';
-                    console.log('campground is Bougie');
                     bougieLabelArray.push('Bougie')
                   } //close if
 
@@ -213,16 +172,12 @@ $(document).ready(function() {
 
                   // on final iteration, update search results with overall ratings
                   if (j + 1 === campgroundsResults.length) {
-
-                    console.log(bougieLabelArray);
                     if (bougieLabelArray.length >= 1) {
                       // campgroundRating ='Bougie';
-                      console.log(campCodeSelector, 'is Bougie');
                       $(campCodeSelector).text('Bougie')
                     } //close if
                     else {
                       // campgroundRating = 'Bad';
-                      console.log(campCodeSelector, 'is Bad');
                       $(campCodeSelector).text('Bad')
                     } // close else
                     bougieLabelArray = [];
@@ -247,9 +202,6 @@ $(document).ready(function() {
               $('#loading').text('No results found. Search for another state.')
             } // end of else, designation
           } //End of loop, parse parksData
-
-          console.log(parkNameArray);
-
         }); //End of function parksData
       } // close if, current query doesn't equal last query
     }; // close else, input validation
